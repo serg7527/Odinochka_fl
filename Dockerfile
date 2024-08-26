@@ -19,4 +19,4 @@ ENV FLASK_ENV=development
 EXPOSE 5000
 
 # Команда, которая будет выполнена при запуске контейнера
-CMD ["flask", "run", "--host=0.0.0.0", "python", "app.py"]
+CMD ["python", "-m", "flask", "run", "--host=0.0.0.0"]
