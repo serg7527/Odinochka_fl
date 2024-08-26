@@ -1,12 +1,13 @@
 version: '3.8'
-
 services:
-  web:
-    build: .
+  app:
+    image: your_image_name
+    build:
+      context: .
     ports:
       - "5000:5000"
     volumes:
-      - .:/app
-    environment:
-      - FLASK_APP=app.py
-      - FLASK_ENV=development
+      - my_database_volume:/Odinochka/Odinochka_fl/instance/
+volumes:
+  my_database_volume:
+     
