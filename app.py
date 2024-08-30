@@ -31,7 +31,7 @@ class Ad(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    image_filename = db.Column(db.String(200), nullable=True)  # Новое поле для хранения имени файла изображения
+    image_filename = db.Column(db.String(200), nullable=True)
 
 
 
