@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
+from flask_login import LoginManager, UserMixin, current_user, login_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -25,11 +25,15 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(150), nullable=False)
 
 
+
 class Ad(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
     description = db.Column(db.Text, nullable=False)
     image_filename = db.Column(db.String(200), nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  # Связь с пользователем
+
+
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -80,6 +84,8 @@ def index():
 UPLOAD_FOLDER = 'static/uploads'  # Папка для сохранения загруженных изображений
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+
+
 @app.route('/add_ad', methods=['GET', 'POST'])
 @login_required
 def add_ad():
@@ -94,7 +100,7 @@ def add_ad():
             image_filename = image.filename
             image.save(os.path.join(app.config['UPLOAD_FOLDER'], image_filename))
 
-        new_ad = Ad(title=title, description=description, image_filename=image_filename)
+        new_ad = Ad(title=title, description=description, image_filename=image_filename, user_id=current_user.id)  # Сохраняем пользователя
         db.session.add(new_ad)
         db.session.commit()
 
@@ -103,10 +109,17 @@ def add_ad():
 
     return render_template('add_ad.html')
 
+
+
 @app.route('/edit_ad/<int:ad_id>', methods=['GET', 'POST'])
 @login_required
 def edit_ad(ad_id):
     ad = Ad.query.get_or_404(ad_id)
+
+    # Проверка, что текущий пользователь является создателем объявления
+    if ad.user_id != current_user.id:
+        flash('У вас нет прав для редактирования этого объявления.', 'danger')
+        return redirect(url_for('index'))
 
     if request.method == 'POST':
         title = request.form['title']
