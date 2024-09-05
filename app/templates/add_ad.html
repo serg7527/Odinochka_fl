@@ -1,0 +1,15 @@
+<form method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="title">Название объявления</label>
+        <input type="text" class="form-control" name="title" required>
+    </div>
+    <div class="form-group">
+        <label for="description">Описание</label>
+        <textarea class="form-control" name="description" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="image">Выберите изображение</label>
+        <input type="file" class="form-control-file" name="image" accept="image/*">
+    </div>
+    <button type="submit" class="btn btn-success">Добавить объявление</button>
+</form>
