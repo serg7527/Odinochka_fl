@@ -1,39 +1,45 @@
 css
 /* static/styles.css */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
+    font-family: 'Roboto', sans-serif;
+    background-image: url('your-background-image-url.jpg'); /* Замените на ваше изображение */
+    background-size: cover;
+    background-position: center;
+    color: #1d1414;
 }
 
-h1 {
-    color: #399a40;
+.navbar {
+    background-color: rgba(255, 255, 255, 0.9); /* Полупрозрачный фон для навигации */
 }
 
-h2 {
-    color: #495097;
+.nav-link {
+    transition: color 0.3s;
 }
 
-.container {
+.nav-link:hover {
+    color: #007bff; /* Цвет ссылки при наведении */
+}
+
+.alert {
     margin-top: 20px;
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
+.card {
+    margin: 20px 0;
+    box-shadow: 0 4px 8px rgba(45, 31, 121, 0.1);
+    transition: transform 0.2s;
 }
 
-li {
-    background: #ffffff;
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-    padding: 15px;
-    margin-bottom: 10px;
+.card:hover {
+    transform: scale(1.02); /* Увеличение карточки при наведении */
 }
 
-a {
-    color: #007bff;
-}
-
-a:hover {
-    text-decoration: underline;
+.footer {
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    background-color: #144f8a;
+    margin-top: 20px;
 }
