@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Добро пожаловать на сайт "ОДИНОЧКА.БАЙ"</h1>
+    <h1>"ОДИНОЧКА.БАЙ"</h1>
 
-    <h2>Поиск, продажа, обмен одиночной шины, для любого вида техники:</h2>
+    <h2>Поиск, продажа, обмен одной шины, для любого вида техники</h2>
 
     <ul class="row">
     {% if ads %}
@@ -24,11 +24,11 @@
     {% endif %}
     </ul>
 
-    <p><a href="{{ url_for('add_ad') }}" class="btn btn-success">Добавить новое объявление</a></p>
+    <p><a href="{{ url_for('add_ad') }}" class="btn btn-success">Добавить объявление</a></p>
     {% if current_user.is_authenticated %}
         <p><a href="{{ url_for('logout') }}" class="btn btn-danger">Выйти</a></p>
     {% else %}
-        <p><a href="{{ url_for('login') }}" class="btn btn-info">Войти</a></p>
         <p><a href="{{ url_for('register') }}" class="btn btn-warning">Регистрация</a></p>
+        <p><a href="{{ url_for('login') }}" class="btn btn-info">Войти</a></p>
     {% endif %}
 {% endblock %}

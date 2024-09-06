@@ -5,7 +5,7 @@ body {
     background-image: url('your-background-image-url.jpg'); /* Замените на ваше изображение */
     background-size: cover;
     background-position: center;
-    color: #333;
+    color: #0e2f51;;
 }
 
 .navbar {
@@ -17,7 +17,7 @@ body {
 }
 
 .nav-link:hover {
-    color: #007bff; /* Цвет ссылки при наведении */
+    color: #0e3763; /* Цвет ссылки при наведении */
 }
 
 .alert {
