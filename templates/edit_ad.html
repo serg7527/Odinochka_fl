@@ -58,10 +58,9 @@
         }
 
         button {
-            background-color: #5cb85c;
+            background-color: #1c286a;
             color: white;
             padding: 10px;
-            border: none;
             border-radius: 4px;
             cursor: pointer;
             width: 100%;
@@ -137,6 +136,12 @@
                 {% endif %}
             </div>
             <button type="submit">Сохранить изменения</button>
+        </form>
+
+        <form action="{{ url_for('delete_ad', ad_id=ad.id) }}" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Вы уверены, что хотите удалить это объявление?');">
+                Удалить
+            </button>
         </form>
 
         <a href="{{ url_for('index') }}">Назад к объявлениям</a>

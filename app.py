@@ -111,6 +111,22 @@ def add_ad():
 
 
 
+@app.route('/delete_ad/<int:ad_id>', methods=['POST'])
+@login_required
+def delete_ad(ad_id):
+    ad = Ad.query.get_or_404(ad_id)
+
+    # Проверяем, что текущий пользователь является создателем объявления
+    if ad.user_id != current_user.id:
+        flash('У вас нет прав для удаления этого объявления.', 'danger')
+        return redirect(url_for('index'))
+
+    # Удаляем объявление из базы данных
+    db.session.delete(ad)
+    db.session.commit()
+    flash('Объявление успешно удалено!', 'success')
+    return redirect(url_for('index'))
+
 @app.route('/edit_ad/<int:ad_id>', methods=['GET', 'POST'])
 @login_required
 def edit_ad(ad_id):
@@ -146,4 +162,3 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()  # Создание таблиц при первом запуске
     app.run(debug=False)
-    
