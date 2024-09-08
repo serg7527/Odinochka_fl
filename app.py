@@ -1,4 +1,5 @@
 import os
+import re
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, current_user, login_user, login_required, logout_user
@@ -12,6 +13,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
+
+
+UPLOAD_FOLDER = 'static/uploads'  # Папка для сохранения загруженных изображений
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @login_manager.user_loader
@@ -34,13 +39,16 @@ class Ad(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  # Связь с пользователем
 
 
-
-
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+
+        # Проверка на недопустимые символы в имени пользователя
+        if not re.match("^[A-Za-z0-9_]+$", username):
+            flash('Имя пользователя может содержать только буквы, цифры и символ подчеркивания.', 'danger')
+            return redirect(url_for('register'))
 
         # Проверка на существующего пользователя
         existing_user = User.query.filter_by(username=username).first()
@@ -55,7 +63,9 @@ def register():
         db.session.commit()
         flash('Регистрация успешна! Теперь вы можете войти.', 'success')
         return redirect(url_for('login'))
+
     return render_template('register.html')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -70,20 +80,18 @@ def login():
             flash('Неверные учетные данные. Пожалуйста, попробуйте снова.', 'danger')
     return render_template('login.html')
 
+
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
+
 @app.route('/', methods=['GET'])
 def index():
     ads = Ad.query.all()  # Извлекаем все объявления из базы данных
     return render_template('index.html', ads=ads)
-
-UPLOAD_FOLDER = 'static/uploads'  # Папка для сохранения загруженных изображений
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
 
 
 @app.route('/add_ad', methods=['GET', 'POST'])
